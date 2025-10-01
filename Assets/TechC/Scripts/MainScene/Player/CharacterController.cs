@@ -1,11 +1,10 @@
 using UnityEngine;
 using TechC.Manager;
-using UnityEngine.InputSystem;
 
 namespace TechC.Main.Player
 {
     /// <summary>
-    /// プレイヤーを管理するクラス
+    /// プレイヤーの移動を管理するクラス
     /// </summary>
     [RequireComponent(typeof(Rigidbody))]
     public class CharacterController : MonoBehaviour
@@ -22,88 +21,156 @@ namespace TechC.Main.Player
         [SerializeField] private GameObject leftTofu;
         [SerializeField] private GameObject rightTofu;
 
+        // キャッシュ用フィールド
         private Rigidbody rb;
-        private int leftTofuCurrentLane = 1;
-        private int rightTofuCurrentLane = 2;
+        private PlayerInputManager inputManager;
+        private Transform leftTofuTransform;
+        private Transform rightTofuTransform;
 
-        private bool isClickingLeft;
-        private bool isClickingRight;
+        // 現在のレーン位置
+        private int leftTofuCurrentLane;
+        private int rightTofuCurrentLane;
+
+        // 移動状態フラグ
+        private bool isMovingLeft;
+        private bool isMovingRight;
+
+        // プロパティで最大レーンインデックスを取得
+        private int MaxLaneIndex => lanes.Length - 1;
+
+        // 定数定義
+        private const int LANE_STEP = 1;
+        private const int MIN_LANE_INDEX = 0;
 
         private void Start()
         {
-            rb = GetComponent<Rigidbody>();
-            leftTofuCurrentLane = initLeftTofuLane;
-            rightTofuCurrentLane = initRightTofuLane;
+            InitializeComponents();
+            InitializeLanes();
+            SubscribeToInputEvents();
+        }
+
+        private void OnDestroy()
+        {
+            UnsubscribeFromInputEvents();
         }
 
         private void Update()
         {
-            if (isClickingLeft)
+            HandleMovement();
+        }
+
+        private void FixedUpdate()
+        {
+            MoveForward();
+        }
+
+        #region 初期化
+        private void InitializeComponents()
+        {
+            rb = GetComponent<Rigidbody>();
+            inputManager = GetComponent<PlayerInputManager>();
+
+            leftTofuTransform = leftTofu.transform;
+            rightTofuTransform = rightTofu.transform;
+        }
+
+        private void InitializeLanes()
+        {
+            leftTofuCurrentLane = initLeftTofuLane;
+            rightTofuCurrentLane = initRightTofuLane;
+        }
+        #endregion
+
+        #region イベント購読管理
+        private void SubscribeToInputEvents()
+        {
+            if (inputManager == null) return;
+
+            inputManager.OnLeftInputStarted += StartLeftMovement;
+            inputManager.OnLeftInputCanceled += StopLeftMovement;
+            inputManager.OnRightInputStarted += StartRightMovement;
+            inputManager.OnRightInputCanceled += StopRightMovement;
+        }
+
+        private void UnsubscribeFromInputEvents()
+        {
+            if (inputManager == null) return;
+
+            inputManager.OnLeftInputStarted -= StartLeftMovement;
+            inputManager.OnLeftInputCanceled -= StopLeftMovement;
+            inputManager.OnRightInputStarted -= StartRightMovement;
+            inputManager.OnRightInputCanceled -= StopRightMovement;
+        }
+        #endregion
+
+        #region 移動処理
+        private void HandleMovement()
+        {
+            if (isMovingLeft)
             {
                 MoveLeftLane();
             }
-            if (isClickingRight)
+            if (isMovingRight)
             {
                 MoveRightLane();
             }
         }
 
-        private void FixedUpdate()
+        private void MoveForward()
         {
             float deltaTime = GameManager.I.DeltaTime;
-            rb.MovePosition(transform.position + Vector3.forward * moveSpeed * deltaTime);
+            Vector3 movement = Vector3.forward * (moveSpeed * deltaTime);
+            rb.MovePosition(transform.position + movement);
         }
-
-        public void OnMoveLeft(InputAction.CallbackContext context)
-        {
-            if (context.started)
-            {
-                isClickingLeft = true;
-            }
-            else if (context.canceled)
-            {
-                isClickingLeft = false;
-                leftTofuCurrentLane = initLeftTofuLane;
-                MoveToLane(leftTofu.transform, leftTofuCurrentLane);
-            }
-        }
-
-        public void OnMoveRight(InputAction.CallbackContext context)
-        {
-            if (context.started)
-            {
-                isClickingRight = true;
-            }
-            else if (context.canceled)
-            {
-                isClickingRight = false;
-                rightTofuCurrentLane = initRightTofuLane;
-                MoveToLane(rightTofu.transform, rightTofuCurrentLane);
-            }
-        }
-
 
         private void MoveLeftLane()
         {
-            leftTofuCurrentLane = Mathf.Max(0, leftTofuCurrentLane - 1);
-            MoveToLane(leftTofu.transform, leftTofuCurrentLane);
+            leftTofuCurrentLane = Mathf.Max(MIN_LANE_INDEX, leftTofuCurrentLane - LANE_STEP);
+            MoveToLane(leftTofuTransform, leftTofuCurrentLane);
         }
 
         private void MoveRightLane()
         {
-            rightTofuCurrentLane = Mathf.Min(lanes.Length - 1, rightTofuCurrentLane + 1);
-            MoveToLane(rightTofu.transform, rightTofuCurrentLane);
+            rightTofuCurrentLane = Mathf.Min(MaxLaneIndex, rightTofuCurrentLane + LANE_STEP);
+            MoveToLane(rightTofuTransform, rightTofuCurrentLane);
         }
 
         private void MoveToLane(Transform target, int laneIndex)
         {
-            Vector3 targetPos = new Vector3(lanes[laneIndex].position.x, target.position.y, target.position.z);
-            target.position = targetPos;
+            Vector3 currentPosition = target.position;
+            Vector3 targetPosition = new Vector3(
+                lanes[laneIndex].position.x,
+                currentPosition.y,
+                currentPosition.z
+            );
+            target.position = targetPosition;
+        }
+        #endregion
+
+        #region 入力処理コールバック
+        private void StartLeftMovement()
+        {
+            isMovingLeft = true;
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void StopLeftMovement()
         {
-            Debug.Log(collision.gameObject.name);
+            isMovingLeft = false;
+            leftTofuCurrentLane = initLeftTofuLane;
+            MoveToLane(leftTofuTransform, leftTofuCurrentLane);
         }
+
+        private void StartRightMovement()
+        {
+            isMovingRight = true;
+        }
+
+        private void StopRightMovement()
+        {
+            isMovingRight = false;
+            rightTofuCurrentLane = initRightTofuLane;
+            MoveToLane(rightTofuTransform, rightTofuCurrentLane);
+        }
+        #endregion
     }
 }

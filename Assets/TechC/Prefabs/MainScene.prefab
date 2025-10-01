@@ -40,10 +40,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4987124058651372480}
-  - component: {fileID: 2171659299005966888}
   - component: {fileID: 695126778561977024}
   - component: {fileID: 4822929594448655222}
-  - component: {fileID: 6981934835788565563}
+  - component: {fileID: 2171659299005966888}
+  - component: {fileID: 5666922240951638210}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -69,28 +69,6 @@ Transform:
   - {fileID: 3991111645721762468}
   m_Father: {fileID: 2243745186964265926}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2171659299005966888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2072088275511882254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ac1d42e21e495c4ab4746cc3ec5e227, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lanes:
-  - {fileID: 4403854653104091759}
-  - {fileID: 6850866161972347610}
-  - {fileID: 1827693492876008860}
-  - {fileID: 4483355528661802277}
-  initLeftTofuLane: 1
-  initRightTofuLane: 2
-  moveSpeed: 5
-  leftTofu: {fileID: 8476453331538881444}
-  rightTofu: {fileID: 3939034778665563169}
 --- !u!114 &695126778561977024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,27 +199,40 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!65 &6981934835788565563
-BoxCollider:
+--- !u!114 &2171659299005966888
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2072088275511882254}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ac1d42e21e495c4ab4746cc3ec5e227, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lanes:
+  - {fileID: 4403854653104091759}
+  - {fileID: 6850866161972347610}
+  - {fileID: 1827693492876008860}
+  - {fileID: 4483355528661802277}
+  initLeftTofuLane: 1
+  initRightTofuLane: 2
+  moveSpeed: 5
+  leftTofu: {fileID: 8476453331538881444}
+  rightTofu: {fileID: 3939034778665563169}
+--- !u!114 &5666922240951638210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2072088275511882254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f2ce1aeedb412c4d874dafff55c1af2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2115454354891610896
 GameObject:
   m_ObjectHideFlags: 0
