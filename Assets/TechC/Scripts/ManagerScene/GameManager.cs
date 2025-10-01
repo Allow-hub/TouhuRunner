@@ -7,13 +7,14 @@ namespace TechC.Manager
     public class GameManager : Singleton<GameManager>
     {
         [SerializeField] private int targetFrameRate = 144;
-
+        [HideInInspector] public float DeltaTime { get; private set; }
+        public bool IsPaused = false;
         public enum GameState
         {
             Title,
             Menu,
-            Clear,
-            GameOver
+            Game,
+            Result
         }
         public GameState currentState = GameState.Title;
         protected override void Init()
@@ -29,6 +30,7 @@ namespace TechC.Manager
 
         private void Update()
         {
+            DeltaTime = IsPaused ? 0f : Time.deltaTime;
             StateHandler();
         }
 
