@@ -29,14 +29,14 @@ namespace TechC.Main.Player
         private bool isClickingLeft;
         private bool isClickingRight;
 
-        void Start()
+        private void Start()
         {
             rb = GetComponent<Rigidbody>();
             leftTofuCurrentLane = initLeftTofuLane;
             rightTofuCurrentLane = initRightTofuLane;
         }
 
-        void Update()
+        private void Update()
         {
             if (isClickingLeft)
             {
@@ -48,7 +48,7 @@ namespace TechC.Main.Player
             }
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             float deltaTime = GameManager.I.DeltaTime;
             rb.MovePosition(transform.position + Vector3.forward * moveSpeed * deltaTime);
@@ -82,24 +82,28 @@ namespace TechC.Main.Player
             }
         }
 
-        
-        public void MoveLeftLane()
+
+        private void MoveLeftLane()
         {
             leftTofuCurrentLane = Mathf.Max(0, leftTofuCurrentLane - 1);
             MoveToLane(leftTofu.transform, leftTofuCurrentLane);
         }
 
-        public void MoveRightLane()
+        private void MoveRightLane()
         {
             rightTofuCurrentLane = Mathf.Min(lanes.Length - 1, rightTofuCurrentLane + 1);
             MoveToLane(rightTofu.transform, rightTofuCurrentLane);
         }
 
-        void MoveToLane(Transform target, int laneIndex)
+        private void MoveToLane(Transform target, int laneIndex)
         {
             Vector3 targetPos = new Vector3(lanes[laneIndex].position.x, target.position.y, target.position.z);
             target.position = targetPos;
         }
 
+        private void OnCollisionEnter(Collision collision)
+        {
+            Debug.Log(collision.gameObject.name);
+        }
     }
 }
