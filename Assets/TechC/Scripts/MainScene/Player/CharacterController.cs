@@ -1,4 +1,5 @@
 using UnityEngine;
+using TechC.Manager;
 using UnityEngine.InputSystem;
 
 namespace TechC.Main.Player
@@ -35,6 +36,24 @@ namespace TechC.Main.Player
             rightTofuCurrentLane = initRightTofuLane;
         }
 
+        void Update()
+        {
+            if (isClickingLeft)
+            {
+                MoveLeftLane();
+            }
+            if (isClickingRight)
+            {
+                MoveRightLane();
+            }
+        }
+
+        void FixedUpdate()
+        {
+            float deltaTime = GameManager.I.DeltaTime;
+            rb.MovePosition(transform.position + Vector3.forward * moveSpeed * deltaTime);
+        }
+
         public void OnMoveLeft(InputAction.CallbackContext context)
         {
             if (context.started)
@@ -63,23 +82,6 @@ namespace TechC.Main.Player
             }
         }
 
-        void Update()
-        {
-            if (isClickingLeft)
-            {
-                MoveLeftLane();
-            }
-            if (isClickingRight)
-            {
-                MoveRightLane();
-            }
-        }
-
-        // void FixedUpdate()
-        // {
-        //     float deltaTime = GameManager.I.DeltaTime;
-        //     rb.MovePosition(transform.position + Vector3.forward * moveSpeed * deltaTime);
-        // }
         
         public void MoveLeftLane()
         {

@@ -215,6 +215,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lane3
       objectReference: {fileID: 0}
+    - target: {fileID: 5857697034605839037, guid: 3a0427fb489970d4c8acaf280bbc0acb,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 7121606345070836746, guid: 3a0427fb489970d4c8acaf280bbc0acb,
         type: 3}
       propertyPath: m_Name
@@ -608,6 +613,8 @@ MonoBehaviour:
   - {fileID: 738977923}
   - {fileID: 1060927457}
   - {fileID: 321445130}
+  initLeftTofuLane: 1
+  initRightTofuLane: 2
   moveSpeed: 5
   leftTofu: {fileID: 713977718}
   rightTofu: {fileID: 891454939}
