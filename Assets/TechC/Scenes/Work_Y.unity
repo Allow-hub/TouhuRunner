@@ -138,7 +138,7 @@ PrefabInstance:
     - target: {fileID: 2173282855540345844, guid: 3a0427fb489970d4c8acaf280bbc0acb,
         type: 3}
       propertyPath: m_Name
-      value: Lane3
+      value: Lane2
       objectReference: {fileID: 0}
     - target: {fileID: 2243745186964265926, guid: 3a0427fb489970d4c8acaf280bbc0acb,
         type: 3}
@@ -193,7 +193,7 @@ PrefabInstance:
     - target: {fileID: 3242181460405799762, guid: 3a0427fb489970d4c8acaf280bbc0acb,
         type: 3}
       propertyPath: m_Name
-      value: Lane1
+      value: Lane4
       objectReference: {fileID: 0}
     - target: {fileID: 3242181460405799762, guid: 3a0427fb489970d4c8acaf280bbc0acb,
         type: 3}
@@ -213,12 +213,12 @@ PrefabInstance:
     - target: {fileID: 5030764204206178317, guid: 3a0427fb489970d4c8acaf280bbc0acb,
         type: 3}
       propertyPath: m_Name
-      value: Lane2
+      value: Lane3
       objectReference: {fileID: 0}
     - target: {fileID: 7121606345070836746, guid: 3a0427fb489970d4c8acaf280bbc0acb,
         type: 3}
       propertyPath: m_Name
-      value: Lane4
+      value: Lane1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -229,6 +229,12 @@ PrefabInstance:
       addedObject: {fileID: 939392382}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a0427fb489970d4c8acaf280bbc0acb, type: 3}
+--- !u!4 &321445130 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4483355528661802277, guid: 3a0427fb489970d4c8acaf280bbc0acb,
+    type: 3}
+  m_PrefabInstance: {fileID: 277929061}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &713977718
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,7 +248,7 @@ GameObject:
   - component: {fileID: 713977721}
   - component: {fileID: 713977720}
   m_Layer: 0
-  m_Name: TofuRight
+  m_Name: LeftTofu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -334,6 +340,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 713977718}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &738977923 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6850866161972347610, guid: 3a0427fb489970d4c8acaf280bbc0acb,
+    type: 3}
+  m_PrefabInstance: {fileID: 277929061}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &891454939
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,7 +359,7 @@ GameObject:
   - component: {fileID: 891454942}
   - component: {fileID: 891454941}
   m_Layer: 0
-  m_Name: TofuLeft
+  m_Name: RightTofu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -450,6 +462,8 @@ GameObject:
   - component: {fileID: 939392382}
   - component: {fileID: 939392384}
   - component: {fileID: 939392383}
+  - component: {fileID: 939392386}
+  - component: {fileID: 939392385}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -470,8 +484,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 891454940}
   - {fileID: 713977719}
+  - {fileID: 891454940}
   m_Father: {fileID: 1748825189}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &939392383
@@ -544,8 +558,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 939392384}
         m_TargetAssemblyTypeName: TechC.Main.Player.CharacterController, Assembly-CSharp
-        m_MethodName: MoveLeft
-        m_Mode: 1
+        m_MethodName: OnMoveLeft
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -560,8 +574,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 939392384}
         m_TargetAssemblyTypeName: TechC.Main.Player.CharacterController, Assembly-CSharp
-        m_MethodName: MoveRight
-        m_Mode: 1
+        m_MethodName: OnMoveRight
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -590,11 +604,73 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lanes:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1268950082}
+  - {fileID: 738977923}
+  - {fileID: 1060927457}
+  - {fileID: 321445130}
   moveSpeed: 5
+  leftTofu: {fileID: 713977718}
+  rightTofu: {fileID: 891454939}
+--- !u!65 &939392385
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 939392381}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &939392386
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 939392381}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 116
+  m_CollisionDetection: 0
+--- !u!4 &1060927457 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1827693492876008860, guid: 3a0427fb489970d4c8acaf280bbc0acb,
+    type: 3}
+  m_PrefabInstance: {fileID: 277929061}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1268950082 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4403854653104091759, guid: 3a0427fb489970d4c8acaf280bbc0acb,
+    type: 3}
+  m_PrefabInstance: {fileID: 277929061}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1748825189 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2243745186964265926, guid: 3a0427fb489970d4c8acaf280bbc0acb,
