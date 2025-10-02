@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace TechC.Manager
 {
+    /// <summary>
+    /// バナー広告の表示を担当
+    /// </summary>
     public class BannerAdManager : Singleton<BannerAdManager>
     {
         private LevelPlayBannerAd bannerTop;
