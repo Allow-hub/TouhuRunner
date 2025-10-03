@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TechC.Main.Player;
 
 namespace TechC.Manager
 {
@@ -39,7 +38,6 @@ namespace TechC.Manager
 
         private void OnDestroy()
         {
-            // イベント購読解除
             TechC.Main.Player.CharacterController.OnGameOver -= HandleGameOver;
         }
 
@@ -60,10 +58,10 @@ namespace TechC.Manager
             switch (state)
             {
                 case GameState.Title:
+                    TechC.Main.Player.CharacterController.OnGameOver -= HandleGameOver;
                     break;
                 case GameState.Game:
-                    moveDistance = 0;
-                    score = 0;
+                    TechC.Main.Player.CharacterController.OnGameOver += HandleGameOver;
                     break;
             }
         }
@@ -114,18 +112,7 @@ namespace TechC.Manager
         //小規模なのでGameManagerが管理
         public void AddScore(int value) => score += value;
         public void AddDisrance(float value) => moveDistance += value;
-
-        public void ChangeTitleState()
-        {
-            TechC.Main.Player.CharacterController.OnGameOver -= HandleGameOver;
-            SetState(GameState.Title);
-        }
-
-        public void ChangeGameState()
-        {
-            SetState(GameState.Game);
-            TechC.Main.Player.CharacterController.OnGameOver += HandleGameOver;
-        }
+        public void ChangeTitleState() => SetState(GameState.Title);
+        public void ChangeGameState() => SetState(GameState.Game);
     }
-
 }

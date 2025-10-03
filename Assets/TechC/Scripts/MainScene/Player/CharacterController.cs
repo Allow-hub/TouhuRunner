@@ -200,7 +200,6 @@ namespace TechC.Main.Player
             // プレイヤーの移動を停止
             rb.velocity = Vector3.zero;
 
-            // 移動フラグをリセット
             isMovingLeft = false;
             isMovingRight = false;
         }
