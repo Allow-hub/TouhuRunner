@@ -80,24 +80,16 @@ namespace TechC.Manager
         // 非同期でシーンをロードするコルーチン
         private IEnumerator LoadSceneCoroutine(int sceneIndex)
         {
+            // フェードアウト
+            yield return StartCoroutine(FadeManager.I.FadeOut());
+
+            // シーンロード
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneIndex);
-            asyncOperation.allowSceneActivation = false;
-
-            // シーンのロードが終わるまで待機
             while (!asyncOperation.isDone)
-            {
-                // ロードが進んだら進行状況を表示
-                float progress = Mathf.Clamp01(asyncOperation.progress / 0.9f);
-                Debug.Log("Loading progress: " + (progress * 100) + "%");
-
-                // ロードが完了したらシーンをアクティブ化
-                if (asyncOperation.progress >= 0.9f)
-                {
-                    asyncOperation.allowSceneActivation = true;
-                }
-
                 yield return null;
-            }
+
+            // フェードイン
+            yield return StartCoroutine(FadeManager.I.FadeIn());
         }
 
         //小規模なのでGameManagerが管理
