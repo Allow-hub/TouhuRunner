@@ -61,6 +61,8 @@ namespace TechC.Manager
                     TechC.Main.Player.CharacterController.OnGameOver -= HandleGameOver;
                     break;
                 case GameState.Game:
+                    moveDistance = 0;
+                    score = 0;
                     TechC.Main.Player.CharacterController.OnGameOver += HandleGameOver;
                     break;
             }
