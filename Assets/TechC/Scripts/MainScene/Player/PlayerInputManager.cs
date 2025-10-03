@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
+using UnityEngine.InputSystem;
 
 namespace TechC.Main.Player
 {
@@ -38,7 +39,22 @@ namespace TechC.Main.Player
             trigger.triggers.Add(entryUp);
         }
 
-        private void OnLeftPressed()  => OnLeftInputStarted?.Invoke();
+        public void OnLeft(InputAction.CallbackContext context)
+        {
+            if (context.started)
+                OnLeftPressed();
+            else if (context.canceled)
+                OnLeftReleased();
+        }
+        public void OnRight(InputAction.CallbackContext context)
+        {
+            if (context.started)
+                OnRightPressed();
+            else if (context.canceled)
+                OnRightReleased();
+        }
+
+        private void OnLeftPressed() => OnLeftInputStarted?.Invoke();
         private void OnLeftReleased() => OnLeftInputCanceled?.Invoke();
         private void OnRightPressed() => OnRightInputStarted?.Invoke();
         private void OnRightReleased() => OnRightInputCanceled?.Invoke();
