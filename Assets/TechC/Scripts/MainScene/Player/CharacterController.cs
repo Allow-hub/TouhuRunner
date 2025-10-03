@@ -1,5 +1,6 @@
 using UnityEngine;
 using TechC.Manager;
+using System;
 
 namespace TechC.Main.Player
 {
@@ -20,6 +21,11 @@ namespace TechC.Main.Player
         [Header("豆腐のオブジェクト")]
         [SerializeField] private GameObject leftTofu;
         [SerializeField] private GameObject rightTofu;
+
+        [Header("壁判定設定")]
+        [SerializeField] private LayerMask wallLayer = -1;
+
+        public static event Action OnGameOver;
 
         // キャッシュ用フィールド
         private Rigidbody rb;
@@ -63,6 +69,7 @@ namespace TechC.Main.Player
         {
             MoveForward();
         }
+
 
         #region 初期化
         private void InitializeComponents()
@@ -170,6 +177,33 @@ namespace TechC.Main.Player
             isMovingRight = false;
             rightTofuCurrentLane = initRightTofuLane;
             MoveToLane(rightTofuTransform, rightTofuCurrentLane);
+        }
+        #endregion
+
+        #region 壁衝突処理
+        /// <summary>
+        /// 壁との衝突処理（ゲームオーバー）
+        /// </summary>
+        private void OnCollisionEnter(Collision collision)
+        {
+            if ((wallLayer.value & (1 << collision.gameObject.layer)) > 0)
+            {
+                HandleWallCollision(collision.gameObject);
+            }
+        }
+
+        private void HandleWallCollision(GameObject wall)
+        {
+
+            // ゲームオーバーイベント発火
+            OnGameOver?.Invoke();
+
+            // プレイヤーの移動を停止
+            rb.velocity = Vector3.zero;
+
+            // 移動フラグをリセット
+            isMovingLeft = false;
+            isMovingRight = false;
         }
         #endregion
     }

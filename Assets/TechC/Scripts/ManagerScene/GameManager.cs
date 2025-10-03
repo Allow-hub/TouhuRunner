@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TechC.Main.Player;
 
 namespace TechC.Manager
 {
@@ -34,8 +35,31 @@ namespace TechC.Manager
             QualitySettings.vSyncCount = 0;
             // fps 144 を目標に設定
             Application.targetFrameRate = targetFrameRate;
+
+            // CharacterControllerのイベントを購読
+            SubscribeToPlayerEvents();
         }
 
+        private void OnDestroy()
+        {
+            // イベント購読解除
+            UnsubscribeFromPlayerEvents();
+        }
+
+        private void SubscribeToPlayerEvents()
+        {
+            TechC.Main.Player.CharacterController.OnGameOver += HandleGameOver;
+        }
+
+        private void UnsubscribeFromPlayerEvents()
+        {
+            TechC.Main.Player.CharacterController.OnGameOver -= HandleGameOver;
+        }
+
+        private void HandleGameOver()
+        {
+            SetState(GameState.Result);
+        }
 
         private void Update()
         {
