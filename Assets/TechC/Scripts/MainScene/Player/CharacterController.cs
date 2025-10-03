@@ -194,7 +194,6 @@ namespace TechC.Main.Player
 
         private void HandleWallCollision(GameObject wall)
         {
-
             // ゲームオーバーイベント発火
             OnGameOver?.Invoke();
 

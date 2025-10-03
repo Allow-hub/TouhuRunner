@@ -35,24 +35,11 @@ namespace TechC.Manager
             QualitySettings.vSyncCount = 0;
             // fps 144 を目標に設定
             Application.targetFrameRate = targetFrameRate;
-
-            // CharacterControllerのイベントを購読
-            SubscribeToPlayerEvents();
         }
 
         private void OnDestroy()
         {
             // イベント購読解除
-            UnsubscribeFromPlayerEvents();
-        }
-
-        private void SubscribeToPlayerEvents()
-        {
-            TechC.Main.Player.CharacterController.OnGameOver += HandleGameOver;
-        }
-
-        private void UnsubscribeFromPlayerEvents()
-        {
             TechC.Main.Player.CharacterController.OnGameOver -= HandleGameOver;
         }
 
@@ -128,8 +115,17 @@ namespace TechC.Manager
         public void AddScore(int value) => score += value;
         public void AddDisrance(float value) => moveDistance += value;
 
-        public void ChangeTitleState() => SetState(GameState.Title);
-        public void ChangeGameState() => SetState(GameState.Game);
+        public void ChangeTitleState()
+        {
+            TechC.Main.Player.CharacterController.OnGameOver -= HandleGameOver;
+            SetState(GameState.Title);
+        }
+
+        public void ChangeGameState()
+        {
+            SetState(GameState.Game);
+            TechC.Main.Player.CharacterController.OnGameOver += HandleGameOver;
+        }
     }
 
 }
