@@ -17,8 +17,8 @@ namespace TechC.Main
 
         private void Start()
         {
-            scoreText.text = scoreStr + GameManager.I.Score;
-            distanceText.text = distanceStr + GameManager.I.MoveDistance;
+            scoreText.text = scoreStr + GameManager.I.Score.ToString("F0");
+            distanceText.text = distanceStr + GameManager.I.MoveDistance.ToString("F0") + "m";
             lastDistance = GameManager.I.MoveDistance;
             lastScore = GameManager.I.Score;
         }
@@ -27,13 +27,13 @@ namespace TechC.Main
         {
             if (lastScore != GameManager.I.Score)
             {
-                scoreText.text = scoreStr + GameManager.I.Score;
+                scoreText.text = scoreStr + GameManager.I.Score.ToString("F0");
                 lastScore = GameManager.I.Score;
             }
 
             if (lastDistance != GameManager.I.MoveDistance)
             {
-                distanceText.text = distanceStr + GameManager.I.MoveDistance;
+                distanceText.text = distanceStr + GameManager.I.MoveDistance.ToString("F0") + "m";
                 lastDistance = GameManager.I.Score;
             }
         }
