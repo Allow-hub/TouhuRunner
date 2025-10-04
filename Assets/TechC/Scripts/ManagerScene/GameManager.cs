@@ -30,6 +30,7 @@ namespace TechC.Manager
         {
             base.Init();
 
+            AudioManager.I.PlayBGM(BGMID.Game);
             // VSyncCount を Dont Sync に変更
             QualitySettings.vSyncCount = 0;
             // fps 144 を目標に設定

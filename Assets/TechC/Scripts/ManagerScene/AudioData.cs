@@ -11,9 +11,7 @@ namespace TechC.Manager
     public enum BGMID
     {
         None = -1,
-        Title,
-        Stage1,
-        Stage2,
+        Game,        
     }
 
     /// <summary>

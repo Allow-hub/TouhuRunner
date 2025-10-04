@@ -53,11 +53,13 @@ namespace TechC.Main
 
         private void Restart()
         {
+            AudioManager.I.PlaySE(SEID.ButtonClick);
             GameManager.I.LoadSceneAsync(1);
             GameManager.I.ChangeGameState();
         }
         private void GoTitle()
         {
+            AudioManager.I.PlaySE(SEID.ButtonClick);
             GameManager.I.LoadSceneAsync(0);
             GameManager.I.ChangeTitleState();
         }
