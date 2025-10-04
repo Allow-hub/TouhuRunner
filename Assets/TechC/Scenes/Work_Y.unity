@@ -177,8 +177,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2171659299005966888, guid: 3a0427fb489970d4c8acaf280bbc0acb,
         type: 3}
+      propertyPath: maxMoveSpeed
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171659299005966888, guid: 3a0427fb489970d4c8acaf280bbc0acb,
+        type: 3}
       propertyPath: speedIncreaseInterval
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171659299005966888, guid: 3a0427fb489970d4c8acaf280bbc0acb,
+        type: 3}
+      propertyPath: speedIncreaseDistances.Array.data[0]
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171659299005966888, guid: 3a0427fb489970d4c8acaf280bbc0acb,
+        type: 3}
+      propertyPath: speedIncreaseDistances.Array.data[1]
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171659299005966888, guid: 3a0427fb489970d4c8acaf280bbc0acb,
+        type: 3}
+      propertyPath: speedIncreaseDistances.Array.data[2]
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171659299005966888, guid: 3a0427fb489970d4c8acaf280bbc0acb,
+        type: 3}
+      propertyPath: speedIncreaseDistances.Array.data[3]
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171659299005966888, guid: 3a0427fb489970d4c8acaf280bbc0acb,
+        type: 3}
+      propertyPath: speedIncreaseDistances.Array.data[4]
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 2243745186964265926, guid: 3a0427fb489970d4c8acaf280bbc0acb,
         type: 3}
@@ -300,6 +330,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8850449122414810846, guid: 3a0427fb489970d4c8acaf280bbc0acb,
+        type: 3}
+      propertyPath: countdownTime
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -417,7 +452,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fee54910c034c004fb0a7d04e853a59b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followSpeed: 2
   followZAxis: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
