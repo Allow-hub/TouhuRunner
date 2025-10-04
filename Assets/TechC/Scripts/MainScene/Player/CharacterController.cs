@@ -5,6 +5,25 @@ using System.Collections.Generic;
 namespace TechC.Main.Player
 {
     /// <summary>
+    /// 速度段階の設定情報
+    /// </summary>
+    [System.Serializable]
+    public class SpeedLevel
+    {
+        [SerializeField] private float distance;
+        [SerializeField] private float speed;
+        
+        public float Distance => distance;
+        public float Speed => speed;
+        
+        public SpeedLevel(float distance, float speed)
+        {
+            this.distance = distance;
+            this.speed = speed;
+        }
+    }
+
+    /// <summary>
     /// プレイヤーの移動を管理するクラス
     /// </summary>
     [RequireComponent(typeof(Rigidbody))]
@@ -20,8 +39,10 @@ namespace TechC.Main.Player
         [SerializeField] private float maxMoveSpeed = 20f;
         
         [Header("段階的速度上昇設定")]
-        [SerializeField] private float[] speedIncreaseDistances = { 100f, 200f, 280f, 340f, 380f };
-        [SerializeField] private string[] stageNames = { "第1段階", "第2段階", "第3段階", "第4段階", "最終段階" };
+        [SerializeField] private List<SpeedLevel> speedStages = new List<SpeedLevel>
+        {
+            new SpeedLevel(0f, 0f),
+        };
 
         [Header("豆腐のオブジェクト")]
         [SerializeField] private GameObject leftTofu;
@@ -149,49 +170,33 @@ namespace TechC.Main.Player
             float currentDistance = GameManager.I.MoveDistance;
             
             // 現在の段階をチェック
-            if (currentSpeedStage < speedIncreaseDistances.Length && 
-                currentDistance >= speedIncreaseDistances[currentSpeedStage])
+            if (currentSpeedStage < speedStages.Count && 
+                currentDistance >= speedStages[currentSpeedStage].Distance)
             {
-                // 段階に応じた処理
-                switch (currentSpeedStage)
-                {
-                    case 0: // 第1段階
-                        IncreaseSpeed(currentDistance, 0);
-                        break;
-                        
-                    case 1: // 第2段階
-                        IncreaseSpeed(currentDistance, 1);
-                        break;
-                        
-                    case 2: // 第3段階
-                        IncreaseSpeed(currentDistance, 2);
-                        break;
-                        
-                    case 3: // 第4段階
-                        IncreaseSpeed(currentDistance, 3);
-                        break;
-                        
-                    case 4: // 最終段階
-                        currentMoveSpeed = maxMoveSpeed;
-                        string stageName = stageNames.Length > 4 ? stageNames[4] : "最終段階";
-                        Debug.Log($"{stageName} 最大速度到達! 距離: {currentDistance:F1}m, 速度: {currentMoveSpeed:F1}");
-                        currentSpeedStage++;
-                        break;
-                        
-                    default:
-                        // 全ての段階が終了
-                        break;
-                }
+                // 現在の段階に対応する速度設定を適用
+                SetSpeedToTarget(currentDistance, currentSpeedStage);
             }
         }
         
-        private void IncreaseSpeed(float currentDistance, int stageIndex)
+        private void SetSpeedToTarget(float currentDistance, int stageIndex)
         {
-            currentMoveSpeed = Mathf.Min(currentMoveSpeed + moveSpeed, maxMoveSpeed);
-            lastSpeedIncreaseDistance = speedIncreaseDistances[stageIndex];
-            
-            string stageName = stageNames.Length > stageIndex ? stageNames[stageIndex] : $"段階{stageIndex + 1}";
-            Debug.Log($"{stageName} 速度上昇! 距離: {currentDistance:F1}m, 速度: {currentMoveSpeed:F1}");
+            // 段階が範囲内かチェック
+            if (stageIndex < speedStages.Count)
+            {
+                // 指定された目標速度に設定、または最大速度との最小値
+                float targetSpeed = speedStages[stageIndex].Speed;
+                currentMoveSpeed = Mathf.Min(targetSpeed, maxMoveSpeed);
+                
+                lastSpeedIncreaseDistance = speedStages[stageIndex].Distance;
+                
+                Debug.Log($"段階{stageIndex + 1} 速度変更! 距離: {currentDistance:F1}m, 速度: {currentMoveSpeed:F1} (目標: {targetSpeed:F1})");
+            }
+            else
+            {
+                // 配列範囲外の場合は最大速度に設定
+                currentMoveSpeed = maxMoveSpeed;
+                Debug.Log($"段階{stageIndex + 1} 最大速度到達! 距離: {currentDistance:F1}m, 速度: {currentMoveSpeed:F1}");
+            }
             
             currentSpeedStage++;
         }
@@ -305,7 +310,7 @@ namespace TechC.Main.Player
                     // この壁を処理済みとしてマーク
                     processedWalls.Add(hit.collider);
                     
-                    Debug.Log($"ドッジ成功! ({tofuObject.name}) 距離: {distance:F2}, ボーナス: {bonusScore}");
+                    // Debug.Log($"ドッジ成功! ({tofuObject.name}) 距離: {distance:F2}, ボーナス: {bonusScore}");
                     
                     // 一定時間後に処理済みリストから削除（同じ壁で再度ボーナスを得られるように）
                     StartCoroutine(RemoveProcessedWallAfterDelay(hit.collider, 1.0f));
