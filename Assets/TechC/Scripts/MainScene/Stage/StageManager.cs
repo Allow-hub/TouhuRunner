@@ -119,7 +119,11 @@ namespace TechC.Main.Stage
         NormalArea_1,
         NormalArea_2,
         NormalArea_3,
-        NormalArea_4
+        NormalArea_4,
+        TwoArea_1,
+        TwoArea_2,
+        TwoArea_3,
+        TwoArea_4,
     }
 
     [Serializable]
