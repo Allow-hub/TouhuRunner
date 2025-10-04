@@ -742,10 +742,22 @@ MonoBehaviour:
   initLeftTofuLane: 1
   initRightTofuLane: 2
   moveSpeed: 7
-  maxMoveSpeed: 50
+  maxMoveSpeed: 40
   speedStages:
   - distance: 20
     speed: 10
+  - distance: 50
+    speed: 15
+  - distance: 80
+    speed: 20
+  - distance: 120
+    speed: 25
+  - distance: 150
+    speed: 30
+  - distance: 200
+    speed: 35
+  - distance: 300
+    speed: 40
   leftTofu: {fileID: 8476453331538881444}
   rightTofu: {fileID: 3939034778665563169}
   wallLayer:
@@ -3178,7 +3190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 6920769741710545216}
   countdownText: {fileID: 6654923726366932594}
-  countdownTime: 0
+  countdownTime: 3
   speed: 0.7
 --- !u!225 &6920769741710545216
 CanvasGroup:
