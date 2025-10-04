@@ -47,7 +47,7 @@ namespace TechC.Title
 
         private void SetAudio(float value)
         {
-            AudioManager.I.SetBGMVolume(value);
+            AudioManager.I.SetMasterVolume(value);
         }
     }
 }

@@ -20,6 +20,7 @@ namespace TechC.Manager
     public enum SEID
     {
         None = -1,
+        Dead,
         ButtonClick,
         MenuOpen,
         MenuClose,

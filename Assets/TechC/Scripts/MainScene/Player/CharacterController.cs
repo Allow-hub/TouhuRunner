@@ -360,7 +360,7 @@ namespace TechC.Main.Player
 
             isMovingLeft = false;
             isMovingRight = false;
-
+            AudioManager.I.PlaySE(SEID.Dead);
             GameManager.I.ChangeResultState();
             ResultManager.I.ShowResult();
         }

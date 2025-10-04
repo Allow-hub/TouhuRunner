@@ -21,8 +21,13 @@ MonoBehaviour:
     fadeInTime: 0
     fadeOutTime: 0
   seList:
-  - id: 0
+  - id: 1
     clip: {fileID: 8300000, guid: 6b5906a3f8ff94a419ddebb3bf67f52c, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - id: 0
+    clip: {fileID: 8300000, guid: 2076b3df3f4530f438b8febba7d948b7, type: 3}
     volume: 1
     pitch: 1
     loop: 0
