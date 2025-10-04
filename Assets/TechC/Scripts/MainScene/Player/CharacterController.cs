@@ -1,6 +1,5 @@
 using UnityEngine;
 using TechC.Manager;
-using System;
 
 namespace TechC.Main.Player
 {
