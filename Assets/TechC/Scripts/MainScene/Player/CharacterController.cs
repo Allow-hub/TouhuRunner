@@ -187,15 +187,12 @@ namespace TechC.Main.Player
                 float targetSpeed = speedStages[stageIndex].Speed;
                 currentMoveSpeed = Mathf.Min(targetSpeed, maxMoveSpeed);
                 
-                lastSpeedIncreaseDistance = speedStages[stageIndex].Distance;
-                
-                Debug.Log($"段階{stageIndex + 1} 速度変更! 距離: {currentDistance:F1}m, 速度: {currentMoveSpeed:F1} (目標: {targetSpeed:F1})");
+                lastSpeedIncreaseDistance = speedStages[stageIndex].Distance;                
             }
             else
             {
                 // 配列範囲外の場合は最大速度に設定
                 currentMoveSpeed = maxMoveSpeed;
-                Debug.Log($"段階{stageIndex + 1} 最大速度到達! 距離: {currentDistance:F1}m, 速度: {currentMoveSpeed:F1}");
             }
             
             currentSpeedStage++;
@@ -360,7 +357,7 @@ namespace TechC.Main.Player
 
             isMovingLeft = false;
             isMovingRight = false;
-            AudioManager.I.PlaySE(SEID.Dead);
+
             GameManager.I.ChangeResultState();
             ResultManager.I.ShowResult();
         }
