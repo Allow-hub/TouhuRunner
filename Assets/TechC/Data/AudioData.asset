@@ -15,7 +15,7 @@ MonoBehaviour:
   bgmList:
   - id: 0
     clip: {fileID: 8300000, guid: 9a5577b72bc579941a4484a7239e7d0a, type: 3}
-    volume: 1
+    volume: 0.142
     pitch: 1
     loop: 1
     fadeInTime: 0
