@@ -609,11 +609,19 @@ MonoBehaviour:
   initLeftTofuLane: 1
   initRightTofuLane: 2
   moveSpeed: 7
+  maxMoveSpeed: 50
+  speedStages:
+  - distance: 20
+    speed: 10
   leftTofu: {fileID: 8476453331538881444}
   rightTofu: {fileID: 3939034778665563169}
   wallLayer:
     serializedVersion: 2
     m_Bits: 128
+  dodgeDistance: 2
+  dodgeBaseScore: 10
+  dodgeCheckInterval: 0.1
+  raycastDistance: 3
 --- !u!114 &5666922240951638210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1356,7 +1364,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.8, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4101633299675693322
 GameObject:
@@ -2145,6 +2153,7 @@ GameObject:
   - component: {fileID: 569442541719496639}
   - component: {fileID: 3375040350533635221}
   - component: {fileID: 1402151318249356991}
+  - component: {fileID: 8637350902601747921}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2270,6 +2279,19 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &8637350902601747921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5922643130482881345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fee54910c034c004fb0a7d04e853a59b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followZAxis: 1
 --- !u!1 &6085392162653909016
 GameObject:
   m_ObjectHideFlags: 0
@@ -2659,7 +2681,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 6920769741710545216}
   countdownText: {fileID: 6654923726366932594}
-  countdownTime: 3
+  countdownTime: 0
   speed: 0.7
 --- !u!225 &6920769741710545216
 CanvasGroup:
@@ -3450,7 +3472,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.8, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8628785114040221278
 GameObject:
