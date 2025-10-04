@@ -36,8 +36,8 @@ namespace TechC.Main
         [ContextMenu("Show")]
         public void ShowResult()
         {
-            distanceText.text = $"{GameManager.I.MoveDistance}m";
-            scoreText.text = $"{GameManager.I.Score}にがりん";
+            distanceText.text = GameManager.I.MoveDistance.ToString("F0") + "m";
+            scoreText.text = GameManager.I.Score.ToString("F0") + "にがりん";
             canvasGroup.alpha = 1;
             canvasGroup.blocksRaycasts = true;
             canvasGroup.interactable = true;
