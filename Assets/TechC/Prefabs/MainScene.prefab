@@ -434,7 +434,7 @@ GameObject:
   - component: {fileID: 4822929594448655222}
   - component: {fileID: 2171659299005966888}
   - component: {fileID: 5666922240951638210}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -611,6 +611,9 @@ MonoBehaviour:
   moveSpeed: 7
   leftTofu: {fileID: 8476453331538881444}
   rightTofu: {fileID: 3939034778665563169}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!114 &5666922240951638210
 MonoBehaviour:
   m_ObjectHideFlags: 0

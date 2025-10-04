@@ -7,14 +7,14 @@ namespace TechC.Manager
     public class GameManager : Singleton<GameManager>
     {
         private float maxMoveDistance;//今までの最高移動距離
-        private int maxScore;//今までの最高スコア
+        private float maxScore;//今までの最高スコア
         private int currentMoney;//スコア/xをお金として加算、所持金
 
         private float moveDistance;//進んだ距離
         public float MoveDistance => moveDistance;
 
-        private int score;//壁ぎりぎりでの避けで加算
-        public int Score => score;
+        private float score;//壁ぎりぎりでの避けで加算
+        public float Score => score;
         [SerializeField] private int targetFrameRate = 144;
         [HideInInspector] public float DeltaTime { get; private set; }
         public bool IsPaused = false;
@@ -34,8 +34,7 @@ namespace TechC.Manager
             QualitySettings.vSyncCount = 0;
             // fps 144 を目標に設定
             Application.targetFrameRate = targetFrameRate;
-        }
-
+        }       
 
         private void Update()
         {
@@ -56,6 +55,7 @@ namespace TechC.Manager
                     break;
             }
         }
+
         private void StateHandler()
         {
             //switch (currentState)
@@ -93,11 +93,10 @@ namespace TechC.Manager
         }
 
         //小規模なのでGameManagerが管理
-        public void AddScore(int value) => score += value;
+        public void AddScore(float value) => score += value;
         public void AddDisrance(float value) => moveDistance += value;
-
         public void ChangeTitleState() => SetState(GameState.Title);
         public void ChangeGameState() => SetState(GameState.Game);
+        public void ChangeResultState() => SetState(GameState.Result);
     }
-
 }

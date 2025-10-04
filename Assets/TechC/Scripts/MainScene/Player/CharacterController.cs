@@ -1,5 +1,6 @@
 using UnityEngine;
 using TechC.Manager;
+using System;
 
 namespace TechC.Main.Player
 {
@@ -21,6 +22,8 @@ namespace TechC.Main.Player
         [SerializeField] private GameObject leftTofu;
         [SerializeField] private GameObject rightTofu;
 
+        [Header("壁判定設定")]
+        [SerializeField] private LayerMask wallLayer = -1;
         // キャッシュ用フィールド
         private Rigidbody rb;
         private PlayerInputManager inputManager;
@@ -41,12 +44,14 @@ namespace TechC.Main.Player
         // 定数定義
         private const int LANE_STEP = 1;
         private const int MIN_LANE_INDEX = 0;
+        private Vector3 lastPos;
 
         private void Start()
         {
             InitializeComponents();
             InitializeLanes();
             SubscribeToInputEvents();
+            lastPos = transform.position;
         }
 
         private void OnDestroy()
@@ -57,12 +62,17 @@ namespace TechC.Main.Player
         private void Update()
         {
             HandleMovement();
+            var dis = Vector3.Distance(transform.position, lastPos);
+            GameManager.I.AddDisrance(dis);
+            GameManager.I.AddScore(dis);
+            lastPos = transform.position;
         }
 
         private void FixedUpdate()
         {
             MoveForward();
         }
+
 
         #region 初期化
         private void InitializeComponents()
@@ -170,6 +180,31 @@ namespace TechC.Main.Player
             isMovingRight = false;
             rightTofuCurrentLane = initRightTofuLane;
             MoveToLane(rightTofuTransform, rightTofuCurrentLane);
+        }
+        #endregion
+
+        #region 壁衝突処理
+        /// <summary>
+        /// 壁との衝突処理（ゲームオーバー）
+        /// </summary>
+        private void OnCollisionEnter(Collision collision)
+        {
+            if ((wallLayer.value & (1 << collision.gameObject.layer)) > 0)
+            {
+                HandleWallCollision(collision.gameObject);
+            }
+        }
+
+        private void HandleWallCollision(GameObject wall)
+        {
+            // プレイヤーの移動を停止
+            rb.velocity = Vector3.zero;
+
+            isMovingLeft = false;
+            isMovingRight = false;
+
+            GameManager.I.ChangeResultState();
+            ResultManager.I.ShowResult();
         }
         #endregion
     }
