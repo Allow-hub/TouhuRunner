@@ -17,6 +17,8 @@ namespace TechC.Main.Player
 
         [Header("移動速度")]
         [SerializeField] private float moveSpeed = 5f;
+        [SerializeField] private float maxMoveSpeed = 20f;
+        [SerializeField] private float speedIncreaseInterval = 5f; // 何秒ごとに速度を上げるか
 
         [Header("豆腐のオブジェクト")]
         [SerializeField] private GameObject leftTofu;
@@ -38,6 +40,10 @@ namespace TechC.Main.Player
         private bool isMovingLeft;
         private bool isMovingRight;
 
+        // 速度管理
+        private float currentMoveSpeed;
+        private float speedIncreaseTimer;
+
         // プロパティで最大レーンインデックスを取得
         private int MaxLaneIndex => lanes.Length - 1;
 
@@ -50,6 +56,7 @@ namespace TechC.Main.Player
         {
             InitializeComponents();
             InitializeLanes();
+            InitializeSpeed();
             SubscribeToInputEvents();
             lastPos = transform.position;
         }
@@ -62,6 +69,7 @@ namespace TechC.Main.Player
         private void Update()
         {
             HandleMovement();
+            UpdateSpeed();
             var dis = Vector3.Distance(transform.position, lastPos);
             GameManager.I.AddDisrance(dis);
             GameManager.I.AddScore(dis);
@@ -89,6 +97,12 @@ namespace TechC.Main.Player
             leftTofuCurrentLane = initLeftTofuLane;
             rightTofuCurrentLane = initRightTofuLane;
         }
+
+        private void InitializeSpeed()
+        {
+            currentMoveSpeed = moveSpeed;
+            speedIncreaseTimer = 0f;
+        }
         #endregion
 
         #region イベント購読管理
@@ -114,6 +128,18 @@ namespace TechC.Main.Player
         #endregion
 
         #region 移動処理
+        private void UpdateSpeed()
+        {
+            speedIncreaseTimer += GameManager.I.DeltaTime;
+            
+            if (speedIncreaseTimer >= speedIncreaseInterval)
+            {
+                currentMoveSpeed = Mathf.Min(currentMoveSpeed + moveSpeed, maxMoveSpeed);
+                speedIncreaseTimer = 0f;
+                Debug.Log($"速度上昇: {currentMoveSpeed:F1} (最大: {maxMoveSpeed})");
+            }
+        }
+
         private void HandleMovement()
         {
             if (isMovingLeft)
@@ -129,7 +155,7 @@ namespace TechC.Main.Player
         private void MoveForward()
         {
             float deltaTime = GameManager.I.DeltaTime;
-            Vector3 movement = Vector3.forward * (moveSpeed * deltaTime);
+            Vector3 movement = Vector3.forward * (currentMoveSpeed * deltaTime);
             rb.MovePosition(transform.position + movement);
         }
 
