@@ -24,9 +24,6 @@ namespace TechC.Main.Player
 
         [Header("壁判定設定")]
         [SerializeField] private LayerMask wallLayer = -1;
-
-        public static event Action OnGameOver;
-
         // キャッシュ用フィールド
         private Rigidbody rb;
         private PlayerInputManager inputManager;
@@ -47,12 +44,14 @@ namespace TechC.Main.Player
         // 定数定義
         private const int LANE_STEP = 1;
         private const int MIN_LANE_INDEX = 0;
+        private Vector3 lastPos;
 
         private void Start()
         {
             InitializeComponents();
             InitializeLanes();
             SubscribeToInputEvents();
+            lastPos = transform.position;
         }
 
         private void OnDestroy()
@@ -63,6 +62,10 @@ namespace TechC.Main.Player
         private void Update()
         {
             HandleMovement();
+            var dis = Vector3.Distance(transform.position, lastPos);
+            GameManager.I.AddDisrance(dis);
+            GameManager.I.AddScore(dis);
+            lastPos = transform.position;
         }
 
         private void FixedUpdate()
@@ -194,14 +197,14 @@ namespace TechC.Main.Player
 
         private void HandleWallCollision(GameObject wall)
         {
-            // ゲームオーバーイベント発火
-            OnGameOver?.Invoke();
-
             // プレイヤーの移動を停止
             rb.velocity = Vector3.zero;
 
             isMovingLeft = false;
             isMovingRight = false;
+
+            GameManager.I.ChangeResultState();
+            ResultManager.I.ShowResult();
         }
         #endregion
     }
