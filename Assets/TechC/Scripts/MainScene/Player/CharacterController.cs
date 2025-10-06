@@ -12,10 +12,10 @@ namespace TechC.Main.Player
     {
         [SerializeField] private float distance;
         [SerializeField] private float speed;
-        
+
         public float Distance => distance;
         public float Speed => speed;
-        
+
         public SpeedLevel(float distance, float speed)
         {
             this.distance = distance;
@@ -37,9 +37,10 @@ namespace TechC.Main.Player
         [Header("移動速度")]
         [SerializeField] private float moveSpeed = 5f;
         [SerializeField] private float maxMoveSpeed = 20f;
-        
+
         [Header("段階的速度上昇設定")]
-        [SerializeField] private List<SpeedLevel> speedStages = new List<SpeedLevel>
+        [SerializeField]
+        private List<SpeedLevel> speedStages = new List<SpeedLevel>
         {
             new SpeedLevel(0f, 0f),
         };
@@ -47,6 +48,8 @@ namespace TechC.Main.Player
         [Header("豆腐のオブジェクト")]
         [SerializeField] private GameObject leftTofu;
         [SerializeField] private GameObject rightTofu;
+        [SerializeField] private GameObject leftBreakTofu;
+        [SerializeField] private GameObject rightBreakTofu;
 
         [Header("壁判定設定")]
         [SerializeField] private LayerMask wallLayer = -1;
@@ -93,6 +96,8 @@ namespace TechC.Main.Player
             InitializeSpeed();
             SubscribeToInputEvents();
             lastPos = transform.position;
+            leftBreakTofu.SetActive(false);
+            rightBreakTofu.SetActive(false);
         }
 
         private void OnDestroy()
@@ -168,16 +173,16 @@ namespace TechC.Main.Player
         {
             // GameManagerから現在の移動距離を取得
             float currentDistance = GameManager.I.MoveDistance;
-            
+
             // 現在の段階をチェック
-            if (currentSpeedStage < speedStages.Count && 
+            if (currentSpeedStage < speedStages.Count &&
                 currentDistance >= speedStages[currentSpeedStage].Distance)
             {
                 // 現在の段階に対応する速度設定を適用
                 SetSpeedToTarget(currentDistance, currentSpeedStage);
             }
         }
-        
+
         private void SetSpeedToTarget(float currentDistance, int stageIndex)
         {
             // 段階が範囲内かチェック
@@ -186,15 +191,18 @@ namespace TechC.Main.Player
                 // 指定された目標速度に設定、または最大速度との最小値
                 float targetSpeed = speedStages[stageIndex].Speed;
                 currentMoveSpeed = Mathf.Min(targetSpeed, maxMoveSpeed);
-                
-                lastSpeedIncreaseDistance = speedStages[stageIndex].Distance;                
+
+                lastSpeedIncreaseDistance = speedStages[stageIndex].Distance;
+
+                Debug.Log($"段階{stageIndex + 1} 速度変更! 距離: {currentDistance:F1}m, 速度: {currentMoveSpeed:F1} (目標: {targetSpeed:F1})");
             }
             else
             {
                 // 配列範囲外の場合は最大速度に設定
                 currentMoveSpeed = maxMoveSpeed;
+                Debug.Log($"段階{stageIndex + 1} 最大速度到達! 距離: {currentDistance:F1}m, 速度: {currentMoveSpeed:F1}");
             }
-            
+
             currentSpeedStage++;
         }
 
@@ -274,7 +282,7 @@ namespace TechC.Main.Player
         private void CheckDodge()
         {
             dodgeTimer += GameManager.I.DeltaTime;
-            
+
             if (dodgeTimer >= dodgeCheckInterval)
             {
                 DetectDodge();
@@ -292,27 +300,27 @@ namespace TechC.Main.Player
         {
             Vector3 rayOrigin = tofuTransform.position;
             Vector3 rayDirection = Vector3.forward;
-            
+
             RaycastHit hit;
             if (Physics.Raycast(rayOrigin, rayDirection, out hit, raycastDistance, wallLayer))
             {
                 float distance = hit.distance;
-                
+
                 // ドッジ距離内で、まだ処理していない壁の場合
                 if (distance <= dodgeDistance && !processedWalls.Contains(hit.collider))
                 {
                     int bonusScore = CalculateDodgeScore(distance);
                     GameManager.I.AddScore(bonusScore);
-                    
+
                     // この壁を処理済みとしてマーク
                     processedWalls.Add(hit.collider);
-                    
+
                     // Debug.Log($"ドッジ成功! ({tofuObject.name}) 距離: {distance:F2}, ボーナス: {bonusScore}");
-                    
+
                     // 一定時間後に処理済みリストから削除（同じ壁で再度ボーナスを得られるように）
                     StartCoroutine(RemoveProcessedWallAfterDelay(hit.collider, 1.0f));
                 }
-                
+
                 // デバッグ用：Rayを可視化
                 Debug.DrawRay(rayOrigin, rayDirection * hit.distance, Color.red, dodgeCheckInterval);
             }
@@ -346,21 +354,54 @@ namespace TechC.Main.Player
         {
             if ((wallLayer.value & (1 << collision.gameObject.layer)) > 0)
             {
-                HandleWallCollision(collision.gameObject);
+                HandleWallCollision();
             }
         }
 
-        private void HandleWallCollision(GameObject wall)
+        private void HandleWallCollision()
         {
-            // プレイヤーの移動を停止
             rb.velocity = Vector3.zero;
 
+            // BreakTofuを元のTofu位置に移動
+            leftBreakTofu.transform.position = leftTofuTransform.position;
+            rightBreakTofu.transform.position = rightTofuTransform.position;
+
+            // BreakTofuの表示と元Tofuの非表示
+            leftBreakTofu.SetActive(true);
+            rightBreakTofu.SetActive(true);
+            leftTofu.SetActive(false);
+            rightTofu.SetActive(false);
+
+            // 子オブジェクトを含めてすべてのRigidbodyに爆発力を加える
+            AddExplosionToChildren(leftBreakTofu.transform, leftTofuTransform.position - transform.forward * 2f);
+            AddExplosionToChildren(rightBreakTofu.transform, rightTofuTransform.position - transform.forward * 2f);
+
+            // 移動停止
             isMovingLeft = false;
             isMovingRight = false;
 
+            // SE・結果表示
+            AudioManager.I.PlaySE(SEID.Dead);
             GameManager.I.ChangeResultState();
             ResultManager.I.ShowResult();
         }
+
+        /// <summary>
+        /// 指定されたTransformとその子孫のすべてのRigidbodyに爆発力を加える
+        /// </summary>
+        private void AddExplosionToChildren(Transform root, Vector3 explosionOrigin)
+        {
+            float explosionForce = 40f;
+            float explosionRadius = 10f;
+            float upwardModifier = 1f;
+
+            foreach (Rigidbody rb in root.GetComponentsInChildren<Rigidbody>())
+            {
+                rb.velocity = Vector3.zero; // 念のためリセット
+                rb.AddExplosionForce(explosionForce, explosionOrigin, explosionRadius, upwardModifier, ForceMode.Impulse);
+            }
+        }
+
         #endregion
     }
 }
