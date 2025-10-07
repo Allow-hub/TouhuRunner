@@ -511,6 +511,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iosAdUnitIdTop: lxvduyxxcbynb5de
   iosAdUnitIdBottom: ioeuwr671ho6isr8
+  iosAppKey: 23c9a0785
 --- !u!4 &1975755805
 Transform:
   m_ObjectHideFlags: 0
