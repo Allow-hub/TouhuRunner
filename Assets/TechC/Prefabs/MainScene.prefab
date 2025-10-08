@@ -3313,9 +3313,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageDataDict:
     entries:
+    - key: 0
+      value:
+        stagePrefab: {fileID: 5188051749854807865, guid: 2ea3b37797e430a4a9157ae3994532f1,
+          type: 3}
+        probability: 0.2
+    - key: 1
+      value:
+        stagePrefab: {fileID: 5188051749854807865, guid: f17eff614259da04fbf4302d7a435ad7,
+          type: 3}
+        probability: 0.3
+    - key: 2
+      value:
+        stagePrefab: {fileID: 5188051749854807865, guid: 7cb797d8c34586e4aba58ce6fec07d8a,
+          type: 3}
+        probability: 0.2
     - key: 3
       value:
         stagePrefab: {fileID: 5188051749854807865, guid: 9e93d8cf0921cc04a97dd50a90afa273,
+          type: 3}
+        probability: 0.3
+    - key: 4
+      value:
+        stagePrefab: {fileID: 5188051749854807865, guid: ec20617323e11c84cb440f3b8876d305,
+          type: 3}
+        probability: 0.2
+    - key: 5
+      value:
+        stagePrefab: {fileID: 5188051749854807865, guid: c59607352f3ba534eaf67dc7c1d62f57,
+          type: 3}
+        probability: 0.3
+    - key: 6
+      value:
+        stagePrefab: {fileID: 5188051749854807865, guid: fc3d8155b4c6cbd4b91aab0b824f7a25,
+          type: 3}
+        probability: 0.1
+    - key: 7
+      value:
+        stagePrefab: {fileID: 5188051749854807865, guid: 07a2e4dc5e0f4b145bdf924924aa282e,
           type: 3}
         probability: 0.2
   zOffset: 9
@@ -3971,9 +4006,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolItems:
   - name: NormalArea_1
+    prefab: {fileID: 5188051749854807865, guid: 2ea3b37797e430a4a9157ae3994532f1,
+      type: 3}
+    parent: {fileID: 5885499446251749678}
+    initialSize: 15
+  - name: NormalArea_2
+    prefab: {fileID: 5188051749854807865, guid: f17eff614259da04fbf4302d7a435ad7,
+      type: 3}
+    parent: {fileID: 582609090380773052}
+    initialSize: 15
+  - name: NormalArea_3
+    prefab: {fileID: 5188051749854807865, guid: 7cb797d8c34586e4aba58ce6fec07d8a,
+      type: 3}
+    parent: {fileID: 7161501383284401046}
+    initialSize: 15
+  - name: NormalArea_4
     prefab: {fileID: 5188051749854807865, guid: 9e93d8cf0921cc04a97dd50a90afa273,
       type: 3}
     parent: {fileID: 6941468870085913767}
+    initialSize: 15
+  - name: TwoArea_1
+    prefab: {fileID: 5188051749854807865, guid: ec20617323e11c84cb440f3b8876d305,
+      type: 3}
+    parent: {fileID: 6455096708519319459}
+    initialSize: 15
+  - name: NormalArea_2
+    prefab: {fileID: 5188051749854807865, guid: c59607352f3ba534eaf67dc7c1d62f57,
+      type: 3}
+    parent: {fileID: 5749953416804437310}
+    initialSize: 15
+  - name: TwoArea_3
+    prefab: {fileID: 5188051749854807865, guid: fc3d8155b4c6cbd4b91aab0b824f7a25,
+      type: 3}
+    parent: {fileID: 1487957693317542900}
+    initialSize: 15
+  - name: TwoArea_4
+    prefab: {fileID: 5188051749854807865, guid: 07a2e4dc5e0f4b145bdf924924aa282e,
+      type: 3}
+    parent: {fileID: 6125253228061397980}
     initialSize: 15
   autoExpand: 1
   expandSize: 10
