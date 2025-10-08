@@ -1,9 +1,9 @@
-using Unity.Services.LevelPlay;  // 追加済み
+using Unity.Services.LevelPlay;
 using UnityEngine;
 
 namespace TechC.Manager
 {
-    public class BannerAdManager : Singleton<BannerAdManager>
+    public class BannerAdManager : MonoBehaviour
     {
         private LevelPlayBannerAd bannerTop;
         private LevelPlayBannerAd bannerBottom;
