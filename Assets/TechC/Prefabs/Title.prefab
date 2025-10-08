@@ -1213,7 +1213,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3193606025223443003}
   - component: {fileID: 3273033782124821764}
-  - component: {fileID: 7232959604335681263}
   m_Layer: 0
   m_Name: Title
   m_TagString: Untagged
@@ -1259,21 +1258,6 @@ MonoBehaviour:
   audioSlider: {fileID: 8746357039868845159}
   startButton: {fileID: 1867180153842152620}
   menuButton: {fileID: 7172490130893668702}
---- !u!114 &7232959604335681263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5192958297851631938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c2f90b1a94f72844a75fc3977aa90d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  iosAdUnitIdTop: lxvduyxxcbynb5de
-  iosAdUnitIdBottom: ioeuwr671ho6isr8
-  iosAppKey: 23c9a0785
 --- !u!1 &5816130995457248876
 GameObject:
   m_ObjectHideFlags: 0
