@@ -490,13 +490,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1975755805}
   - component: {fileID: 1975755804}
+  - component: {fileID: 1975755806}
   m_Layer: 0
   m_Name: AdsManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1975755804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -504,14 +505,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1975755803}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c2f90b1a94f72844a75fc3977aa90d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   iosAdUnitIdTop: lxvduyxxcbynb5de
   iosAdUnitIdBottom: ioeuwr671ho6isr8
-  iosAppKey: 23c9a0785
+  showTopBanner: 1
+  showBottomBanner: 1
 --- !u!4 &1975755805
 Transform:
   m_ObjectHideFlags: 0
@@ -527,6 +529,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1975755806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1975755803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75a946ee56e2cfc46b1eea68050f9c18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iosAppKey: 23c9a0785
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
